@@ -1,15 +1,1552 @@
-<!doctype html>
-
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <title>Insert Your Page Title Here</title>
-  <meta name="description" content="This is the description that search engines will display. Aim for 145-155 characters.">
-  <meta name="author" content="Insert the content author or owner name here">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الدروس التفاعلية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@200;400;600;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --bg-secondary: #F8F6F8;
+            --card: #FFFFFF;
+            --card-hover: #FFF8FA;
+            --border: #E8DDE2;
+            --fg: #1A0A10;
+            --fg-muted: #8A7380;
+            --accent: #B5294B;
+            --accent-light: #D4466A;
+            --accent-glow: rgba(181, 41, 75, 0.25);
+            --accent-bg: rgba(181, 41, 75, 0.06);
+            --success: #1B8A5A;
+            --success-light: #25A96D;
+            --success-glow: rgba(27, 138, 90, 0.2);
+            --success-bg: rgba(27, 138, 90, 0.08);
+            --danger: #D4364F;
+            --danger-glow: rgba(212, 54, 79, 0.2);
+            --danger-bg: rgba(212, 54, 79, 0.08);
+            --warning: #C48A1A;
+            --warning-bg: rgba(196, 138, 26, 0.08);
+            --info: #1A7BA5;
+            --info-bg: rgba(26, 123, 165, 0.08);
+            --radius: 18px;
+            --radius-sm: 12px;
+            --shadow-sm: 0 2px 8px rgba(26, 10, 16, 0.06);
+            --shadow-md: 0 8px 30px rgba(26, 10, 16, 0.08);
+            --shadow-lg: 0 20px 60px rgba(26, 10, 16, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* === خلفية متحركة === */
+        .bg-decor {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-decor .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.07;
+            animation: blobFloat 25s ease-in-out infinite;
+        }
+
+        .blob-1 { width: 500px; height: 500px; background: var(--accent); top: -150px; right: -80px; }
+        .blob-2 { width: 400px; height: 400px; background: var(--accent-light); bottom: -100px; left: -60px; animation-delay: -8s !important; }
+        .blob-3 { width: 350px; height: 350px; background: var(--warning); top: 40%; left: 30%; animation-delay: -16s !important; }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -25px) scale(1.08); }
+            50% { transform: translate(-25px, 40px) scale(0.95); }
+            75% { transform: translate(25px, 20px) scale(1.04); }
+        }
+
+        /* === نقاط زخرفية === */
+        .bg-dots {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(181, 41, 75, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* === الهيدر === */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-weight: 900;
+            font-size: 1.35rem;
+            color: var(--fg);
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .header-actions { display: flex; gap: 10px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--fg-muted);
+            border: 1px solid var(--border);
+        }
+        .btn-ghost:hover {
+            background: var(--accent-bg);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), var(--success-light));
+            color: white;
+            box-shadow: 0 4px 20px var(--success-glow);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--success-glow);
+        }
+
+        .btn-sm { padding: 7px 16px; font-size: 0.82rem; }
+
+        /* === المحتوى الرئيسي === */
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fadeUp 0.5s ease; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-weight: 900;
+            font-size: 2.1rem;
+            margin-bottom: 0.4rem;
+            color: var(--fg);
+        }
+
+        .section-subtitle {
+            color: var(--fg-muted);
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .lesson-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+        .lesson-card:hover::before { transform: scaleX(1); }
+
+        .lesson-card:hover {
+            background: var(--card-hover);
+            border-color: rgba(181, 41, 75, 0.25);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .lesson-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+        }
+
+        .lesson-card:nth-child(3n+1) .lesson-icon { background: var(--accent-bg); color: var(--accent); }
+        .lesson-card:nth-child(3n+2) .lesson-icon { background: var(--success-bg); color: var(--success); }
+        .lesson-card:nth-child(3n+3) .lesson-icon { background: var(--info-bg); color: var(--info); }
+
+        .lesson-name {
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: var(--fg);
+        }
+
+        .lesson-meta {
+            color: var(--fg-muted);
+            font-size: 0.82rem;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .lesson-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--fg-muted);
+        }
+        .empty-state i { font-size: 4rem; margin-bottom: 20px; opacity: 0.2; }
+        .empty-state p { font-size: 1.1rem; margin-bottom: 24px; }
+
+        /* === صفحة الاختبار === */
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .quiz-title-wrap { flex: 1; }
+
+        .quiz-title {
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--fg);
+        }
+
+        .quiz-progress-text {
+            color: var(--fg-muted);
+            font-size: 0.88rem;
+            margin-top: 4px;
+        }
+
+        .progress-bar-wrap {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+        }
+
+        .question-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            box-shadow: var(--shadow-md);
+            animation: fadeUp 0.4s ease;
+        }
+
+        .question-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .badge-mcq { background: var(--accent-bg); color: var(--accent); }
+        .badge-tf { background: var(--info-bg); color: var(--info); }
+        .badge-essay { background: var(--warning-bg); color: var(--warning); }
+
+        .question-text {
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 2;
+            margin-bottom: 28px;
+            color: var(--fg);
+        }
+
+        /* === خيارات متعددة === */
+        .mcq-options { display: grid; gap: 12px; }
+
+        .mcq-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: var(--fg);
+        }
+        .mcq-option:hover { border-color: var(--accent); background: var(--accent-bg); }
+        .mcq-option.selected { border-color: var(--accent); background: var(--accent-bg); }
+        .mcq-option.correct { border-color: var(--success) !important; background: var(--success-bg) !important; }
+        .mcq-option.wrong { border-color: var(--danger) !important; background: var(--danger-bg) !important; }
+
+        .option-letter {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .mcq-option.selected .option-letter { background: var(--accent); color: white; border-color: var(--accent); }
+        .mcq-option.correct .option-letter { background: var(--success); color: white; border-color: var(--success); }
+        .mcq-option.wrong .option-letter { background: var(--danger); color: white; border-color: var(--danger); }
+
+        /* === صح وخطأ === */
+        .tf-options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .tf-option {
+            padding: 28px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--fg);
+        }
+        .tf-option i { font-size: 2rem; }
+        .tf-option:hover { border-color: var(--accent); background: var(--accent-bg); }
+        .tf-option.selected { border-color: var(--accent); background: var(--accent-bg); }
+        .tf-option.correct { border-color: var(--success) !important; background: var(--success-bg) !important; color: var(--success); }
+        .tf-option.wrong { border-color: var(--danger) !important; background: var(--danger-bg) !important; color: var(--danger); }
+
+        /* === مقالي === */
+        .essay-textarea {
+            width: 100%;
+            min-height: 160px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            color: var(--fg);
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+            line-height: 1.9;
+        }
+        .essay-textarea:focus { outline: none; border-color: var(--accent); }
+
+        .sample-answer {
+            margin-top: 16px;
+            background: var(--success-bg);
+            border: 1px solid rgba(27, 138, 90, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+        .sample-answer.show { display: block; }
+
+        .sample-answer-title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sample-answer-text { color: var(--fg); line-height: 2; }
+
+        /* === أزرار التنقل === */
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-dots {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .quiz-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .quiz-dot.current { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); transform: scale(1.3); }
+        .quiz-dot.answered { background: var(--success); }
+        .quiz-dot.wrong-dot { background: var(--danger); }
+
+        /* === نتيجة الاختبار === */
+        .result-card {
+            text-align: center;
+            padding: 60px 40px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            animation: fadeUp 0.6s ease;
+        }
+
+        .result-score {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            position: relative;
+            background: var(--bg-secondary);
+        }
+
+        .result-score::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent) var(--score-deg, 0deg), var(--border) 0deg);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 5px;
+        }
+
+        .result-score .score-num { font-size: 2.8rem; font-weight: 900; }
+        .result-score .score-label { color: var(--fg-muted); font-size: 0.88rem; }
+
+        .result-message {
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .result-detail { color: var(--fg-muted); font-size: 1rem; margin-bottom: 30px; }
+
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item { text-align: center; }
+        .stat-num { font-size: 1.8rem; font-weight: 800; font-family: 'Noto Kufi Arabic', sans-serif; }
+        .stat-label { font-size: 0.82rem; color: var(--fg-muted); }
+
+        /* === مودال === */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 10, 16, 0.4);
+            backdrop-filter: blur(12px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: fadeUp 0.4s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-title {
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            font-weight: 800;
+            font-size: 1.35rem;
+            margin-bottom: 8px;
+            color: var(--fg);
+        }
+
+        .modal-desc {
+            color: var(--fg-muted);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--fg);
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus { outline: none; border-color: var(--accent); }
+
+        textarea.form-input {
+            min-height: 280px;
+            resize: vertical;
+            line-height: 1.7;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .form-hint { font-size: 0.8rem; color: var(--fg-muted); margin-top: 6px; }
+
+        .form-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: none;
+        }
+        .form-error.show { display: block; }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-start;
+            margin-top: 24px;
+        }
+
+        /* === توست === */
+        .toast-container {
+            position: fixed;
+            top: 84px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .toast {
+            padding: 14px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast-success { background: var(--success); color: white; }
+        .toast-error { background: var(--danger); color: white; }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1) rotate(180deg); opacity: 0; }
+        }
+
+        .feedback-box {
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .feedback-correct {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid rgba(27, 138, 90, 0.2);
+        }
+
+        .feedback-wrong {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid rgba(212, 54, 79, 0.2);
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--danger-bg);
+            border: 1px solid rgba(212, 54, 79, 0.15);
+            color: var(--danger);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .lesson-card:hover .delete-btn { opacity: 1; }
+        .delete-btn:hover { background: var(--danger); color: white; }
+
+        .json-format-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 20px;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 0.76rem;
+            color: var(--fg-muted);
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .score-excellent { color: var(--success); }
+        .score-good { color: var(--warning); }
+        .score-poor { color: var(--danger); }
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 1.5rem; }
+            .lessons-grid { grid-template-columns: 1fr; }
+            .question-card { padding: 22px; }
+            .quiz-header { flex-direction: column; align-items: flex-start; }
+            .tf-options { grid-template-columns: 1fr; }
+            .modal { padding: 24px; }
+            .result-stats { gap: 20px; }
+            main { padding: 1rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--fg-muted); }
+    </style>
 </head>
-
 <body>
-</body>
 
+    <div class="bg-decor">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="bg-dots"></div>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <span>منصة الدروس</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost btn-sm" onclick="showPage('lessons')" id="btn-home" style="display:none;">
+                    <i class="fas fa-arrow-right"></i> الرجوع
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i> إضافة درس
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- صفحة الدروس -->
+        <div class="page active" id="page-lessons">
+            <h1 class="section-title">الدروس المتاحة</h1>
+            <p class="section-subtitle">اختر درسًا للبدء بالاختبار التفاعلي</p>
+            <div class="lessons-grid" id="lessons-grid"></div>
+        </div>
+
+        <!-- صفحة الاختبار -->
+        <div class="page" id="page-quiz">
+            <div class="quiz-header">
+                <div class="quiz-title-wrap">
+                    <h2 class="quiz-title" id="quiz-title"></h2>
+                    <p class="quiz-progress-text" id="quiz-progress-text"></p>
+                </div>
+                <button class="btn btn-ghost btn-sm" onclick="showPage('lessons')">
+                    <i class="fas fa-arrow-right"></i> العودة للدروس
+                </button>
+            </div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+            <div id="question-container"></div>
+            <div class="quiz-nav">
+                <button class="btn btn-ghost" id="btn-prev" onclick="prevQuestion()" disabled>
+                    <i class="fas fa-arrow-right"></i> السابق
+                </button>
+                <div class="quiz-dots" id="quiz-dots"></div>
+                <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">
+                    التالي <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- صفحة النتيجة -->
+        <div class="page" id="page-result">
+            <div class="result-card" id="result-card"></div>
+        </div>
+    </main>
+
+    <!-- مودال إضافة درس -->
+    <div class="modal-overlay" id="add-modal">
+        <div class="modal">
+            <h3 class="modal-title">إضافة درس جديد</h3>
+            <p class="modal-desc">أضف درسًا جديدًا عبر لصق بيانات الأسئلة بصيغة JSON. تأكد من أن التنسيق صحيح وفق الهيكل الموضح أدناه.</p>
+            <div class="json-format-box">{
+  "name": "اسم الدرس",
+  "questions": [
+    {
+      "type": "mcq",
+      "question": "نص السؤال",
+      "options": ["خيار 1", "خيار 2", "خيار 3", "خيار 4"],
+      "answer": 0
+    },
+    {
+      "type": "tf",
+      "question": "نص السؤال",
+      "answer": true
+    },
+    {
+      "type": "essay",
+      "question": "نص السؤال",
+      "sampleAnswer": "الإجابة النموذجية"
+    }
+  ]
+}</div>
+            <div class="form-group">
+                <label class="form-label">اسم الدرس</label>
+                <input type="text" class="form-input" id="lesson-name-input" placeholder="مثال: الفصل الأول - مقدمة في العلوم">
+            </div>
+            <div class="form-group">
+                <label class="form-label">بيانات الأسئلة (JSON)</label>
+                <textarea class="form-input" id="lesson-json-input" placeholder='الصق JSON هنا...'></textarea>
+                <p class="form-hint">الصق محتوى JSON الذي يحتوي على مصفوفة الأسئلة فقط أو الكائن كاملًا مع اسم الدرس.</p>
+                <p class="form-error" id="json-error"></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="addLesson()">
+                    <i class="fas fa-check"></i> إضافة الدرس
+                </button>
+                <button class="btn btn-ghost" onclick="closeAddModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // ===========================
+        // الدرس المُدمج مسبقًا
+        // ===========================
+        const defaultLesson = {
+            "name": "المعادلات التربيعية: الفرق بين مربعين",
+            "questions": [
+                {
+                    "type": "mcq",
+                    "question": "ما هي الصورة المحللة للفرق بين مربعين أ² - ب²؟",
+                    "options": ["(أ - ب)(أ - ب)", "(أ + ب)(أ + ب)", "(أ - ب)(أ + ب)", "أ(أ - ب)"],
+                    "answer": 2
+                },
+                {
+                    "type": "mcq",
+                    "question": "حلل كثيرة الحدود التالية: ١٦هـ² - ٩أ²",
+                    "options": ["(٤هـ - ٣أ)(٤هـ + ٣أ)", "(٤هـ - ٣أ)²", "(٨هـ - ٤أ)(٨هـ + ٤أ)", "(١٦هـ - ٩أ)(١٦هـ + ٩أ)"],
+                    "answer": 0
+                },
+                {
+                    "type": "mcq",
+                    "question": "حلل كثيرة الحدود: ١٢١ - ٤ب²",
+                    "options": ["(١١ - ٢ب)(١١ - ٢ب)", "(١١ - ٢ب)(١١ + ٢ب)", "(١٢١ - ٢ب)(١ - ٢ب)", "(١١ - ٤ب)(١١ + ٤ب)"],
+                    "answer": 1
+                },
+                {
+                    "type": "mcq",
+                    "question": "عند تحليل ٢٧جـ³ - ٣جـ بإخراج العامل المشترك الأكبر أولاً ثم التحليل التام، نحصل على:",
+                    "options": ["٣جـ(٩جـ² - ١)", "٣جـ(٣جـ - ١)(٣جـ + ١)", "٣(٩جـ³ - جـ)", "جـ(٢٧جـ² - ٣)"],
+                    "answer": 1
+                },
+                {
+                    "type": "mcq",
+                    "question": "العبارة ب⁴ - ١٦ تحلل تحليلاً تاماً إلى:",
+                    "options": ["(ب² - ٤)(ب² + ٤)", "(ب - ٢)(ب + ٢)(ب² + ٤)", "(ب - ٢)²(ب + ٢)²", "(ب - ٤)(ب + ٤)"],
+                    "answer": 1
+                },
+                {
+                    "type": "mcq",
+                    "question": "أي من العبارات التالية تمثل (مجموع مربعين) ويعتبر كثيرة حدود أولية لا يمكن تحليله؟",
+                    "options": ["س² - ٩", "س² + ٢٥", "٤س² - ١", "١٦ - ص²"],
+                    "answer": 1
+                },
+                {
+                    "type": "mcq",
+                    "question": "ما هي حلول المعادلة: ٤س² = ٩ ؟",
+                    "options": ["٣/٢", "-٣/٢", "٣/٢ و -٣/٢", "٩/٤ و -٩/٤"],
+                    "answer": 2
+                },
+                {
+                    "type": "mcq",
+                    "question": "التحليل التام لكثيرة الحدود ٨١ - س⁴ هو:",
+                    "options": ["(٩ - س²)(٩ + س²)", "(٣ - س)(٣ + س)(٩ + س²)", "(٣ - س)(٣ + س)(٣ - س)(٣ + س)", "(٨١ - س²)(١ + س²)"],
+                    "answer": 1
+                },
+                {
+                    "type": "mcq",
+                    "question": "ما القيمة الموجبة لـ س التي تحقق المعادلة س² - ٩/١٦ = ٠ ؟",
+                    "options": ["٣/٤", "٩/٤", "٤/٣", "٣/١٦"],
+                    "answer": 0
+                },
+                {
+                    "type": "mcq",
+                    "question": "حلل كثيرة الحدود: ٢ص⁴ - ٥٠",
+                    "options": ["٢(ص² - ٢٥)(ص² + ٢٥)", "(ص² - ٢٥)(٢ص² + ٢)", "٢(ص² - ٥)(ص² + ٥)", "٢(ص - ٥)(ص + ٥)"],
+                    "answer": 2
+                },
+                {
+                    "type": "tf",
+                    "question": "مجموع المربعين مثل (أ² + ب²) يمكن تحليله دائماً إلى (أ - ب)(أ + ب).",
+                    "answer": false
+                },
+                {
+                    "type": "tf",
+                    "question": "العبارة س² - ٣ لا تعتبر فرقاً بين مربعين يمكن تحليله بأعداد صحيحة لأن العدد ٣ ليس مربعاً كاملاً.",
+                    "answer": true
+                },
+                {
+                    "type": "tf",
+                    "question": "ناتج تحليل الفرق بين مربعين يسمى ناتج ضرب مجموع وحيدتي حد في الفرق بينهما.",
+                    "answer": true
+                },
+                {
+                    "type": "tf",
+                    "question": "عند حل المعادلة ١٨س³ - ٥٠س = ٠، فإن س = ٠ هو أحد الحلول الممكنة لهذه المعادلة.",
+                    "answer": true
+                },
+                {
+                    "type": "tf",
+                    "question": "العبارة ٦٢٥ - س⁴ تحلل إلى (٢٥ - س²)(٢٥ + س²) فقط، ولا يمكن الاستمرار في تحليلها أكثر من ذلك.",
+                    "answer": false
+                },
+                {
+                    "type": "tf",
+                    "question": "قاعدة الفرق بين مربعين لا تتضمن حداً متغيراً في الوسط لأن الحدود الوسطى تلغي بعضها البعض عند ضرب الأقواس.",
+                    "answer": true
+                },
+                {
+                    "type": "essay",
+                    "question": "اشرح لماذا لا يمكن تحليل كثيرة الحدود التي على صورة (مجموع مربعين) مثل أ² + ب²؟",
+                    "sampleAnswer": "لأن مجموع المربعين يمثل كثيرة حدود أولية لا يمكن تحليلها في مجموعة الأعداد الحقيقية؛ حيث لا يوجد عددان حقيقيان حاصل ضربهما موجب ومجموعهما يؤدي إلى اختفاء الحد الأوسط كما يحدث في الفرق بين مربعين."
+                },
+                {
+                    "type": "essay",
+                    "question": "وضح بالخطوات كيف يمكن تحليل كثيرة الحدود ٤ص³ - ٩ص تحليلاً تاماً.",
+                    "sampleAnswer": "الخطوة الأولى: إخراج العامل المشترك الأكبر وهو المتغير (ص)، لتصبح العبارة: ص(٤ص² - ٩). الخطوة الثانية: نلاحظ أن القوس (٤ص² - ٩) يمثل فرقاً بين مربعين، فنقوم بتحليله إلى (٢ص - ٣)(٢ص + ٣). فيكون التحليل التام هو: ص(٢ص - ٣)(٢ص + ٣)."
+                },
+                {
+                    "type": "essay",
+                    "question": "حل المعادلة ١٨س³ - ٥٠س = ٠ مع ذكر الخطوات وتطبيق خاصية الضرب الصفري.",
+                    "sampleAnswer": "أولاً: نحلل بإخراج العامل المشترك الأكبر (٢س)، لتصبح المعادلة: ٢س(٩س² - ٢٥) = ٠. ثانياً: نحلل القوس الذي يمثل فرقاً بين مربعين لتصبح: ٢س(٣س - ٥)(٣س + ٥) = ٠. ثالثاً: بتطبيق خاصية الضرب الصفري نحصل على ثلاثة حلول محتملة: إما ٢س = ٠ (ومنه س = ٠)، أو ٣س - ٥ = ٠ (ومنه س = ٥/٣)، أو ٣س + ٥ = ٠ (ومنه س = -٥/٣)."
+                },
+                {
+                    "type": "essay",
+                    "question": "لماذا يجب في بعض الأحيان تطبيق التحليل أكثر من مرة للحصول على تحليل تام لكثيرة الحدود، مع إعطاء مثال من الدرس؟",
+                    "sampleAnswer": "لأن بعض كثيرات الحدود قد تنتج فرقاً آخر بين مربعين بعد التحليل الأول. مثال على ذلك العبارة ب⁴ - ١٦، فعند تحليلها للمرة الأولى كفرق بين مربعين ينتج (ب² - ٤)(ب² + ٤). ونلاحظ هنا أن القوس الأول (ب² - ٤) هو أيضاً فرق بين مربعين يمكن تحليله مجدداً إلى (ب - ٢)(ب + ٢)، ليكون التحليل التام: (ب - ٢)(ب + ٢)(ب² + ٤)."
+                }
+            ]
+        };
+
+        // ===========================
+        // بيانات الدروس
+        // ===========================
+        let lessons = [];
+
+        // حالة الاختبار الحالي
+        let currentQuiz = {
+            lessonIndex: -1,
+            currentQ: 0,
+            answers: [],
+            checked: [],
+        };
+
+        // ===========================
+        // تحميل / حفظ من التخزين المحلي
+        // ===========================
+        function loadLessons() {
+            const saved = localStorage.getItem('interactive_lessons_v2');
+            if (saved) {
+                try { lessons = JSON.parse(saved); } catch(e) { lessons = []; }
+            }
+
+            // إضافة الدرس الافتراضي إذا لم يكن موجودًا
+            if (lessons.length === 0) {
+                lessons.push(defaultLesson);
+                saveLessons();
+            }
+        }
+
+        function saveLessons() {
+            localStorage.setItem('interactive_lessons_v2', JSON.stringify(lessons));
+        }
+
+        // ===========================
+        // عرض الصفحات
+        // ===========================
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageName).classList.add('active');
+
+            const homeBtn = document.getElementById('btn-home');
+            if (pageName === 'lessons') {
+                homeBtn.style.display = 'none';
+                renderLessons();
+            } else {
+                homeBtn.style.display = 'inline-flex';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===========================
+        // عرض بطاقات الدروس
+        // ===========================
+        function renderLessons() {
+            const grid = document.getElementById('lessons-grid');
+
+            const icons = ['fa-square-root-variable', 'fa-flask', 'fa-calculator', 'fa-globe', 'fa-atom', 'fa-code', 'fa-palette', 'fa-music'];
+            const mcqCount = (qs) => qs.filter(q => q.type === 'mcq').length;
+            const tfCount = (qs) => qs.filter(q => q.type === 'tf').length;
+            const essayCount = (qs) => qs.filter(q => q.type === 'essay').length;
+
+            if (lessons.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column:1/-1">
+                        <i class="fas fa-book-open"></i>
+                        <p>لا توجد دروس بعد، أضف درسًا جديدًا للبدء</p>
+                        <button class="btn btn-primary" onclick="openAddModal()">
+                            <i class="fas fa-plus"></i> إضافة درس جديد
+                        </button>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = lessons.map((lesson, i) => `
+                <div class="lesson-card" onclick="startQuiz(${i})" style="animation-delay: ${i * 0.08}s">
+                    <button class="delete-btn" onclick="event.stopPropagation(); deleteLesson(${i})" title="حذف الدرس" aria-label="حذف الدرس">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <div class="lesson-icon">
+                        <i class="fas ${icons[i % icons.length]}"></i>
+                    </div>
+                    <div class="lesson-name">${escapeHtml(lesson.name)}</div>
+                    <div class="lesson-meta">
+                        <span><i class="fas fa-list-check"></i> ${lesson.questions.length} سؤال</span>
+                        <span><i class="fas fa-circle-dot"></i> ${mcqCount(lesson.questions)} اختيار</span>
+                        <span><i class="fas fa-check-double"></i> ${tfCount(lesson.questions)} صح/خطأ</span>
+                        <span><i class="fas fa-pen-fancy"></i> ${essayCount(lesson.questions)} مقالي</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteLesson(index) {
+            const name = lessons[index].name;
+            lessons.splice(index, 1);
+            saveLessons();
+            renderLessons();
+            showToast('تم حذف درس "' + name + '"', 'success');
+        }
+
+        // ===========================
+        // بدء الاختبار
+        // ===========================
+        function startQuiz(lessonIndex) {
+            const lesson = lessons[lessonIndex];
+            if (!lesson || lesson.questions.length === 0) {
+                showToast('لا توجد أسئلة في هذا الدرس', 'error');
+                return;
+            }
+            currentQuiz = {
+                lessonIndex,
+                currentQ: 0,
+                answers: new Array(lesson.questions.length).fill(null),
+                checked: new Array(lesson.questions.length).fill(false),
+            };
+            document.getElementById('quiz-title').textContent = lesson.name;
+            showPage('quiz');
+            renderQuestion();
+            renderDots();
+        }
+
+        // ===========================
+        // عرض السؤال الحالي
+        // ===========================
+        function renderQuestion() {
+            const lesson = lessons[currentQuiz.lessonIndex];
+            const qIndex = currentQuiz.currentQ;
+            const q = lesson.questions[qIndex];
+            const container = document.getElementById('question-container');
+
+            const progress = ((qIndex + 1) / lesson.questions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('quiz-progress-text').textContent = 'السؤال ' + (qIndex + 1) + ' من ' + lesson.questions.length;
+
+            document.getElementById('btn-prev').disabled = qIndex === 0;
+
+            const isLast = qIndex === lesson.questions.length - 1;
+            const nextBtn = document.getElementById('btn-next');
+            if (isLast) {
+                const allChecked = currentQuiz.checked.every(c => c);
+                if (allChecked) {
+                    nextBtn.innerHTML = 'عرض النتيجة <i class="fas fa-trophy"></i>';
+                    nextBtn.onclick = showResult;
+                } else {
+                    nextBtn.innerHTML = 'تالي <i class="fas fa-arrow-left"></i>';
+                    nextBtn.onclick = nextQuestion;
+                }
+            } else {
+                nextBtn.innerHTML = 'تالي <i class="fas fa-arrow-left"></i>';
+                nextBtn.onclick = nextQuestion;
+            }
+
+            const isChecked = currentQuiz.checked[qIndex];
+            const userAnswer = currentQuiz.answers[qIndex];
+
+            let html = '<div class="question-card">';
+
+            if (q.type === 'mcq') {
+                html += '<span class="question-type-badge badge-mcq"><i class="fas fa-list-check"></i> اختيار من متعدد</span>';
+            } else if (q.type === 'tf') {
+                html += '<span class="question-type-badge badge-tf"><i class="fas fa-check-double"></i> صح أو خطأ</span>';
+            } else {
+                html += '<span class="question-type-badge badge-essay"><i class="fas fa-pen-fancy"></i> سؤال مقالي</span>';
+            }
+
+            html += '<div class="question-text">' + escapeHtml(q.question) + '</div>';
+
+            if (q.type === 'mcq') {
+                const letters = ['أ', 'ب', 'ج', 'د'];
+                html += '<div class="mcq-options">';
+                q.options.forEach((opt, oi) => {
+                    let cls = '';
+                    if (isChecked) {
+                        if (oi === q.answer) cls = 'correct';
+                        else if (oi === userAnswer && oi !== q.answer) cls = 'wrong';
+                    } else if (userAnswer === oi) {
+                        cls = 'selected';
+                    }
+                    html += '<div class="mcq-option ' + cls + '" onclick="selectMCQ(' + qIndex + ', ' + oi + ')" role="button" tabindex="0">' +
+                        '<span class="option-letter">' + letters[oi] + '</span>' +
+                        '<span>' + escapeHtml(opt) + '</span></div>';
+                });
+                html += '</div>';
+
+                if (isChecked) {
+                    const isCorrect = userAnswer === q.answer;
+                    html += '<div class="feedback-box ' + (isCorrect ? 'feedback-correct' : 'feedback-wrong') + '">' +
+                        '<i class="fas ' + (isCorrect ? 'fa-check-circle' : 'fa-times-circle') + '"></i> ' +
+                        (isCorrect ? 'إجابة صحيحة!' : 'إجابة خاطئة! الإجابة الصحيحة: ' + escapeHtml(q.options[q.answer])) +
+                        '</div>';
+                }
+
+            } else if (q.type === 'tf') {
+                let trueCls = '', falseCls = '';
+                if (isChecked) {
+                    if (q.answer === true) trueCls = 'correct';
+                    else falseCls = 'correct';
+                    if (userAnswer === true && q.answer !== true) trueCls = 'wrong';
+                    if (userAnswer === false && q.answer !== false) falseCls = 'wrong';
+                } else {
+                    if (userAnswer === true) trueCls = 'selected';
+                    if (userAnswer === false) falseCls = 'selected';
+                }
+
+                html += '<div class="tf-options">' +
+                    '<div class="tf-option ' + trueCls + '" onclick="selectTF(' + qIndex + ', true)" role="button" tabindex="0">' +
+                    '<i class="fas fa-check"></i> صح</div>' +
+                    '<div class="tf-option ' + falseCls + '" onclick="selectTF(' + qIndex + ', false)" role="button" tabindex="0">' +
+                    '<i class="fas fa-xmark"></i> خطأ</div></div>';
+
+                if (isChecked) {
+                    const isCorrect = userAnswer === q.answer;
+                    html += '<div class="feedback-box ' + (isCorrect ? 'feedback-correct' : 'feedback-wrong') + '">' +
+                        '<i class="fas ' + (isCorrect ? 'fa-check-circle' : 'fa-times-circle') + '"></i> ' +
+                        (isCorrect ? 'إجابة صحيحة!' : 'إجابة خاطئة! الإجابة الصحيحة: ' + (q.answer ? 'صح' : 'خطأ')) +
+                        '</div>';
+                }
+
+            } else {
+                html += '<textarea class="essay-textarea" id="essay-answer" placeholder="اكتب إجابتك هنا..." oninput="saveEssayAnswer(' + qIndex + ')">' + (userAnswer || '') + '</textarea>';
+
+                if (isChecked && q.sampleAnswer) {
+                    html += '<div class="sample-answer show">' +
+                        '<div class="sample-answer-title"><i class="fas fa-lightbulb"></i> الإجابة النموذجية</div>' +
+                        '<div class="sample-answer-text">' + escapeHtml(q.sampleAnswer) + '</div></div>';
+                }
+
+                if (!isChecked) {
+                    html += '<div style="margin-top:14px; text-align:left;">' +
+                        '<button class="btn btn-success btn-sm" onclick="checkEssay(' + qIndex + ')">' +
+                        '<i class="fas fa-eye"></i> عرض الإجابة النموذجية</button></div>';
+                }
+            }
+
+            if (!isChecked && (q.type === 'mcq' || q.type === 'tf') && userAnswer !== null) {
+                html += '<div style="margin-top:16px; text-align:left;">' +
+                    '<button class="btn btn-primary btn-sm" onclick="checkAnswer(' + qIndex + ')">' +
+                    '<i class="fas fa-check"></i> تحقق من الإجابة</button></div>';
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+            updateDots();
+        }
+
+        function selectMCQ(qIndex, optionIndex) {
+            if (currentQuiz.checked[qIndex]) return;
+            currentQuiz.answers[qIndex] = optionIndex;
+            renderQuestion();
+        }
+
+        function selectTF(qIndex, value) {
+            if (currentQuiz.checked[qIndex]) return;
+            currentQuiz.answers[qIndex] = value;
+            renderQuestion();
+        }
+
+        function saveEssayAnswer(qIndex) {
+            const textarea = document.getElementById('essay-answer');
+            if (textarea) currentQuiz.answers[qIndex] = textarea.value;
+        }
+
+        function checkAnswer(qIndex) {
+            if (currentQuiz.answers[qIndex] === null || currentQuiz.answers[qIndex] === undefined) {
+                showToast('يرجى اختيار إجابة أولاً', 'error');
+                return;
+            }
+            currentQuiz.checked[qIndex] = true;
+
+            const lesson = lessons[currentQuiz.lessonIndex];
+            const q = lesson.questions[qIndex];
+            const isCorrect = currentQuiz.answers[qIndex] === q.answer;
+            if (isCorrect) createSparkle();
+            renderQuestion();
+            renderDots();
+        }
+
+        function checkEssay(qIndex) {
+            currentQuiz.checked[qIndex] = true;
+            renderQuestion();
+            renderDots();
+        }
+
+        function nextQuestion() {
+            const lesson = lessons[currentQuiz.lessonIndex];
+            if (currentQuiz.currentQ < lesson.questions.length - 1) {
+                currentQuiz.currentQ++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuiz.currentQ > 0) {
+                currentQuiz.currentQ--;
+                renderQuestion();
+            }
+        }
+
+        function goToQuestion(index) {
+            currentQuiz.currentQ = index;
+            renderQuestion();
+        }
+
+        function renderDots() {
+            const lesson = lessons[currentQuiz.lessonIndex];
+            const dots = document.getElementById('quiz-dots');
+            dots.innerHTML = lesson.questions.map((q, i) => {
+                let cls = '';
+                if (i === currentQuiz.currentQ) cls = 'current';
+                else if (currentQuiz.checked[i]) {
+                    if (q.type === 'essay') cls = 'answered';
+                    else if (currentQuiz.answers[i] === q.answer) cls = 'answered';
+                    else cls = 'wrong-dot';
+                }
+                return '<div class="quiz-dot ' + cls + '" onclick="goToQuestion(' + i + ')" title="السؤال ' + (i + 1) + '"></div>';
+            }).join('');
+        }
+
+        function updateDots() { renderDots(); }
+
+        // ===========================
+        // عرض النتيجة
+        // ===========================
+        function showResult() {
+            const lesson = lessons[currentQuiz.lessonIndex];
+            const questions = lesson.questions;
+            let correct = 0, wrong = 0, essayCount = 0, unchecked = 0;
+
+            questions.forEach((q, i) => {
+                if (!currentQuiz.checked[i]) { unchecked++; return; }
+                if (q.type === 'essay') essayCount++;
+                else if (currentQuiz.answers[i] === q.answer) correct++;
+                else wrong++;
+            });
+
+            const objectiveTotal = questions.filter(q => q.type !== 'essay').length;
+            const percentage = objectiveTotal > 0 ? Math.round((correct / objectiveTotal) * 100) : 0;
+
+            let message, messageColor;
+            if (percentage >= 90) { message = 'ممتاز! أداء رائع'; messageColor = 'score-excellent'; }
+            else if (percentage >= 70) { message = 'جيد جدًا! استمر'; messageColor = 'score-good'; }
+            else if (percentage >= 50) { message = 'مقبول، يمكنك التحسن'; messageColor = 'score-good'; }
+            else { message = 'تحتاج مراجعة، حاول مجددًا'; messageColor = 'score-poor'; }
+
+            const deg = (percentage / 100) * 360;
+
+            document.getElementById('result-card').innerHTML =
+                '<div class="result-score" style="--score-deg: ' + deg + 'deg;">' +
+                    '<span class="score-num ' + messageColor + '">' + percentage + '%</span>' +
+                    '<span class="score-label">النتيجة</span>' +
+                '</div>' +
+                '<div class="result-message ' + messageColor + '">' + message + '</div>' +
+                '<div class="result-detail">' + escapeHtml(lesson.name) + '</div>' +
+                '<div class="result-stats">' +
+                    '<div class="stat-item"><div class="stat-num" style="color:var(--success)">' + correct + '</div><div class="stat-label">إجابة صحيحة</div></div>' +
+                    '<div class="stat-item"><div class="stat-num" style="color:var(--danger)">' + wrong + '</div><div class="stat-label">إجابة خاطئة</div></div>' +
+                    '<div class="stat-item"><div class="stat-num" style="color:var(--warning)">' + essayCount + '</div><div class="stat-label">سؤال مقالي</div></div>' +
+                    '<div class="stat-item"><div class="stat-num" style="color:var(--fg-muted)">' + objectiveTotal + '</div><div class="stat-label">إجمالي الموضوعية</div></div>' +
+                '</div>' +
+                '<div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">' +
+                    '<button class="btn btn-primary" onclick="startQuiz(' + currentQuiz.lessonIndex + ')"><i class="fas fa-redo"></i> إعادة الاختبار</button>' +
+                    '<button class="btn btn-ghost" onclick="showPage(\'lessons\')"><i class="fas fa-arrow-right"></i> العودة للدروس</button>' +
+                '</div>';
+
+            showPage('result');
+        }
+
+        // ===========================
+        // مودال إضافة درس
+        // ===========================
+        function openAddModal() {
+            document.getElementById('add-modal').classList.add('show');
+            document.getElementById('lesson-name-input').value = '';
+            document.getElementById('lesson-json-input').value = '';
+            document.getElementById('json-error').classList.remove('show');
+        }
+
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.remove('show');
+        }
+
+        function addLesson() {
+            const nameInput = document.getElementById('lesson-name-input');
+            const jsonInput = document.getElementById('lesson-json-input');
+            const errorEl = document.getElementById('json-error');
+
+            let name = nameInput.value.trim();
+            let jsonStr = jsonInput.value.trim();
+
+            if (!jsonStr) {
+                errorEl.textContent = 'يرجى لصق بيانات JSON';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            let parsed;
+            try { parsed = JSON.parse(jsonStr); }
+            catch(e) {
+                errorEl.textContent = 'خطأ في تنسيق JSON: ' + e.message;
+                errorEl.classList.add('show');
+                return;
+            }
+
+            let questions = [];
+            if (Array.isArray(parsed)) {
+                questions = parsed;
+            } else if (parsed && typeof parsed === 'object') {
+                if (parsed.name && !name) name = parsed.name;
+                if (Array.isArray(parsed.questions)) questions = parsed.questions;
+                else {
+                    errorEl.textContent = 'يجب أن يحتوي الكائن على مصفوفة "questions"';
+                    errorEl.classList.add('show');
+                    return;
+                }
+            } else {
+                errorEl.textContent = 'تنسيق غير مدعوم';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            if (!name) {
+                errorEl.textContent = 'يرجى إدخال اسم الدرس';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            if (questions.length === 0) {
+                errorEl.textContent = 'لا توجد أسئلة في البيانات المدخلة';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            for (let i = 0; i < questions.length; i++) {
+                const q = questions[i];
+                if (!q.type || !q.question) {
+                    errorEl.textContent = 'السؤال رقم ' + (i + 1) + ' ناقص "type" أو "question"';
+                    errorEl.classList.add('show');
+                    return;
+                }
+                if (q.type === 'mcq') {
+                    if (!Array.isArray(q.options) || q.options.length < 2) {
+                        errorEl.textContent = 'السؤال ' + (i + 1) + ' (mcq): يجب أن يحتوي على خيارين على الأقل';
+                        errorEl.classList.add('show');
+                        return;
+                    }
+                    if (typeof q.answer !== 'number' || q.answer < 0 || q.answer >= q.options.length) {
+                        errorEl.textContent = 'السؤال ' + (i + 1) + ' (mcq): قيمة "answer" غير صحيحة';
+                        errorEl.classList.add('show');
+                        return;
+                    }
+                } else if (q.type === 'tf') {
+                    if (typeof q.answer !== 'boolean') {
+                        errorEl.textContent = 'السؤال ' + (i + 1) + ' (tf): قيمة "answer" يجب أن تكون true أو false';
+                        errorEl.classList.add('show');
+                        return;
+                    }
+                } else if (q.type === 'essay') {
+                    if (!q.sampleAnswer) {
+                        errorEl.textContent = 'السؤال ' + (i + 1) + ' (essay): يجب توفير "sampleAnswer"';
+                        errorEl.classList.add('show');
+                        return;
+                    }
+                } else {
+                    errorEl.textContent = 'السؤال ' + (i + 1) + ': النوع "' + q.type + '" غير مدعوم';
+                    errorEl.classList.add('show');
+                    return;
+                }
+            }
+
+            lessons.push({ name, questions });
+            saveLessons();
+            closeAddModal();
+            renderLessons();
+            showToast('تم إضافة درس "' + name + '" بنجاح (' + questions.length + ' سؤال)', 'success');
+        }
+
+        // ===========================
+        // توست
+        // ===========================
+        function showToast(message, type) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            toast.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i> ' + escapeHtml(message);
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3200);
+        }
+
+        // ===========================
+        // تأثير لمعان
+        // ===========================
+        function createSparkle() {
+            const colors = ['#B5294B', '#1B8A5A', '#C48A1A', '#1A7BA5'];
+            for (let i = 0; i < 10; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = (50 + (Math.random() - 0.5) * 40) + 'vw';
+                sparkle.style.top = (50 + (Math.random() - 0.5) * 40) + 'vh';
+                sparkle.style.width = sparkle.style.height = (6 + Math.random() * 8) + 'px';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.animation = 'sparkleAnim ' + (0.5 + Math.random() * 0.5) + 's ease forwards';
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 1200);
+            }
+        }
+
+        // ===========================
+        // مساعد
+        // ===========================
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // إغلاق المودال بالنقر خارجه
+        document.getElementById('add-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeAddModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeAddModal();
+        });
+
+        // ===========================
+        // التهيئة
+        // ===========================
+        loadLessons();
+        renderLessons();
+    </script>
+</body>
 </html>
